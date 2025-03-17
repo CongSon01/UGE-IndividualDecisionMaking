@@ -2,6 +2,43 @@
 
 This project implements several Multi-Criteria Decision Making (MCDM) methods on a Samsung Phones dataset. The goal is to compute criteria weights and rank phone models (alternatives) based on multiple criteria using various algorithms.
 
+## Installation & Running the Code
+
+### Prerequisites
+- **Python 3.6+** is required.
+- Install necessary Python packages:
+  - `numpy`
+  - `pandas`
+  - `openpyxl` (for reading Excel files)
+
+### Step-by-Step Instructions
+
+1. **Clone or Download the Project:**
+   - Place all the provided `.py` files and the sample Excel/CSV files (`cleaned_samsung_phones.csv` and `pairwise_matrix.xlsx`) into the same directory.
+
+2. **Create a Virtual Environment (Optional but Recommended):**
+```bash
+   python -m venv mcdm_env
+   source mcdm_env/bin/activate   # On Windows: mcdm_env\Scripts\activate
+```
+3. **Install Required Packages:**
+```bash
+    pip install numpy pandas openpyxl
+```
+4. **Prepare the Data Files:**
+Ensure that cleaned_samsung_phones.csv (the dataset) and pairwise_matrix.xlsx (the pairwise comparison matrix) are in the same directory as the code, or note their file paths.
+5. **Run the Code:**
+The main script (`main.py`) accepts command-line arguments to choose the weight and ranking methods.
+Example Commands:
+Using AHP for Weights and TOPSIS for Ranking:
+```bash
+    python main.py --weight_method ahp --pairwise_file pairwise_matrix.xlsx --rank_method topsis
+```
+Using Entropy for Weights and WASPAS for Ranking:
+```bash
+    python main.py --weight_method entropy --rank_method waspas
+```
+
 ## 1. Problem Overview
 
 In this project, we address a typical MCDM problem:
@@ -84,40 +121,3 @@ The project is organized into multiple Python modules:
 
 - **main.py:**  
   The main driver script that reads the dataset, selects the weight and ranking method based on command-line parameters, computes weights and rankings, and measures the execution time.
-
-## 5. Installation & Running the Code
-
-### Prerequisites
-- **Python 3.6+** is required.
-- Install necessary Python packages:
-  - `numpy`
-  - `pandas`
-  - `openpyxl` (for reading Excel files)
-
-### Step-by-Step Instructions
-
-1. **Clone or Download the Project:**
-   - Place all the provided `.py` files and the sample Excel/CSV files (`cleaned_samsung_phones.csv` and `pairwise_matrix.xlsx`) into the same directory.
-
-2. **Create a Virtual Environment (Optional but Recommended):**
-```bash
-   python -m venv mcdm_env
-   source mcdm_env/bin/activate   # On Windows: mcdm_env\Scripts\activate
-```
-3. **Install Required Packages:**
-```bash
-    pip install numpy pandas openpyxl
-```
-4. **Prepare the Data Files:**
-Ensure that cleaned_samsung_phones.csv (the dataset) and pairwise_matrix.xlsx (the pairwise comparison matrix) are in the same directory as the code, or note their file paths.
-5. **Run the Code:**
-The main script (`main.py`) accepts command-line arguments to choose the weight and ranking methods.
-Example Commands:
-Using AHP for Weights and TOPSIS for Ranking:
-```bash
-    python main.py --weight_method ahp --pairwise_file pairwise_matrix.xlsx --rank_method topsis
-```
-Using Entropy for Weights and WASPAS for Ranking:
-```bash
-    python main.py --weight_method entropy --rank_method waspas
-```
