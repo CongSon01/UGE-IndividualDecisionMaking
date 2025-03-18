@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MCDM for Samsung Phones</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        /* Overlay style for loading spinner */
+        #loadingOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading overlay -->
+    <div id="loadingOverlay">
+        <div class="text-center">
+            <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <h4 class="mt-3">Processing... Please wait.</h4>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <h1 class="mb-4">Multi-Criteria Decision Making (MCDM)</h1>
+        <!-- Form for uploading dataset and selecting options -->
+        <form method="POST" enctype="multipart/form-data" id="mcdmForm">
+            <div class="form-group">
+                <label for="csv_file">Upload cleaned_samsung_phones.csv:</label>
+                <input type="file" class="form-control-file" id="csv_file" name="csv_file" required>
+            </div>
+            <div class="form-group">
+                <label for="weight_method">Select Weight Computation Method:</label>
+                <select class="form-control" id="weight_method" name="weight_method" onchange="togglePairwise(this.value)">
+                    <option value="entropy">Entropy</option>
+                    <option value="ahp">AHP</option>
+                </select>
+            </div>
+            <!-- Additional file input appears only if AHP is selected -->
+            <div class="form-group" id="pairwiseDiv" style="display: none;">
+                <label for="pairwise_file">Upload pairwise_matrix.xlsx (for AHP):</label>
+                <input type="file" class="form-control-file" id="pairwise_file" name="pairwise_file">
+            </div>
+            <div class="form-group">
+                <label>Ranking Algorithms:</label>
+                <p>All ranking methods (WSM, WPM, WASPAS, TOPSIS, PROMETHEE, VIKOR) will be executed.</p>
+            </div>
+            <button type="submit" class="btn btn-primary" id="submitBtn">Execute MCDM</button>
+        </form>
+    </div>
+    
+    <!-- JavaScript to toggle pairwise file input and show loading overlay on submit -->
+    <script>
+        // Function to show or hide the pairwise file input based on selected weight method
+        function togglePairwise(value) {
+            var pairwiseDiv = document.getElementById("pairwiseDiv");
+            if (value === "ahp") {
+                pairwiseDiv.style.display = "block";
+            } else {
+                pairwiseDiv.style.display = "none";
+            }
+        }
+        
+        // Add an event listener to show the loading overlay when the form is submitted
+        document.getElementById("mcdmForm").addEventListener("submit", function(e) {
+            // Display the loading overlay
+            document.getElementById("loadingOverlay").style.display = "flex";
+            // Optionally disable the submit button to prevent multiple submissions
+            document.getElementById("submitBtn").disabled = true;
+        });
+    </script>
+</body>
+</html>

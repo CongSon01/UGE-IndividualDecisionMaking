@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MCDM Results</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        .chart-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">MCDM Results</h1>
+        
+        <!-- Display criteria weights as a pie chart -->
+        <h3>Criteria Weights (Computed)</h3>
+        <div class="chart-container">
+            <img src="data:image/png;base64,{{ pie_chart }}" alt="Pie Chart of Weights" class="img-fluid">
+        </div>
+        <p><strong>Weight Computation Time:</strong> {{ weight_time | round(6) }} seconds</p>
+        
+        <!-- Display top 10 ranking results for each ranking method -->
+        <h3>Ranking Results (Top 10 Alternatives)</h3>
+        {% for method, table in ranking_results.items() %}
+            <h4>{{ method }}</h4>
+            <div class="table-responsive">
+                {{ table|safe }}
+            </div>
+            <hr>
+        {% endfor %}
+        
+        <!-- Display ranking algorithm execution times as a bar chart -->
+        <h3>Ranking Algorithms Execution Time Comparison</h3>
+        <div class="chart-container">
+            <img src="data:image/png;base64,{{ bar_chart }}" alt="Bar Chart of Ranking Execution Times" class="img-fluid">
+        </div>
+        
+        <a href="{{ url_for('index') }}" class="btn btn-secondary">Back to Home</a>
+    </div>
+</body>
+</html>
