@@ -1,11 +1,12 @@
 # app.py
 import argparse
+import os
 import io
 import base64
 import time
 import pandas as pd
 import matplotlib.pyplot as plt
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, send_file
 
 # Import our MCDM modules
 from module_ahp import compute_ahp_weights_from_excel
@@ -83,6 +84,10 @@ def index():
         }
         ranking_results = {}
         ranking_times = {}
+
+        # Directory to save full ranking files
+        output_folder = os.path.join("static", "results")
+        os.makedirs(output_folder, exist_ok=True)
         
         # Execute each ranking algorithm and record the top 10 results & execution time.
         for method_name, func in ranking_methods.items():
@@ -96,14 +101,35 @@ def index():
                 result_df = func(df, criteria_columns, weights, criteria_type)
             end_rank = time.perf_counter()
             ranking_time = end_rank - start_rank
-            ranking_results[method_name] = result_df.head(10).to_html(classes="table table-striped", index=False)
+
+            top_10 = result_df.head(10).copy()
+            scores = top_10['score']
+            mean_score = scores.mean()
+            std_score = scores.std()
+            cv_value = (std_score / mean_score) if mean_score != 0 else 0.0
+
+            # Convert to HTML
+            table_html = top_10.to_html(classes="table table-striped", index=False)
+
+            # Save full ranking to excel file for download
+            filename = f"{weight_method}_{method_name}_full_ranking.xlsx"
+            filepath = os.path.join(output_folder, filename)
+            result_df.to_excel(filepath, index=False)
+
+            # Store results along with CV
+            ranking_results[method_name] = {
+                'table': table_html,
+                'CV': cv_value,
+                'download': filename
+            }
             ranking_times[method_name] = ranking_time
         
         # Create a pie chart of criteria weights using matplotlib
         fig1, ax1 = plt.subplots()
         labels = list(weights.keys())
         sizes = list(weights.values())
-        ax1.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90)
+        print(weights)
+        ax1.pie(sizes, labels=labels, autopct='%1.2f%%', startangle=90)
         ax1.axis('equal')
         pie_chart = io.BytesIO()
         plt.savefig(pie_chart, format='png')
@@ -142,6 +168,13 @@ def index():
                                pie_chart=pie_chart_base64,
                                bar_chart=bar_chart_base64)
     return render_template("index.html")
+
+# Route for downloading full ranking file
+@app.route('/download/<method>')
+def download_file(method):
+    filename = f"{method}_full_ranking.xlsx"
+    filepath = os.path.join("static", "results", filename)
+    return send_file(filepath, as_attachment=True)
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=8888)

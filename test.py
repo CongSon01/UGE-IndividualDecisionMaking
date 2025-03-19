@@ -12,14 +12,24 @@ criteria = [
 ]
 
 # Sample weight vector (must sum to 1, here chỉ dùng để tạo ma trận so sánh)
+# weights = {
+#     "popularity": 0.10,
+#     "best_price": 0.30,
+#     "highest_price": 0.05,
+#     "screen_size": 0.15,
+#     "memory_size": 0.15,
+#     "battery_size": 0.20,
+#     "release_date": 0.05
+# }
+
 weights = {
-    "popularity": 0.3,
-    "best_price": 0.1,
+    "popularity": 0.12,
+    "best_price": 0.28,
     "highest_price": 0.05,
-    "screen_size": 0.15,
-    "memory_size": 0.1,
-    "battery_size": 0.2,
-    "release_date": 0.1
+    "screen_size": 0.14,
+    "memory_size": 0.16,
+    "battery_size": 0.20,
+    "release_date": 0.05
 }
 
 # Build the pairwise comparison matrix

@@ -25,11 +25,14 @@
         
         <!-- Display top 10 ranking results for each ranking method -->
         <h3>Ranking Results (Top 10 Alternatives)</h3>
-        {% for method, table in ranking_results.items() %}
+        {% for method, content in ranking_results.items() %}
             <h4>{{ method }}</h4>
             <div class="table-responsive">
-                {{ table|safe }}
+                {{ content.table|safe }}
             </div>
+            <p><strong>Coefficient of Variation:</strong> {{ content.CV | round(6) }}</p>
+            <!-- Download button for full ranking -->
+            <a href="{{ url_for('download_file', method=method) }}" class="btn btn-success">Download Full Ranking</a>
             <hr>
         {% endfor %}
         
