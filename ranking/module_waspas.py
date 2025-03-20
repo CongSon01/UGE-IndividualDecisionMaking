@@ -21,9 +21,15 @@ def rank_waspas(df, criteria_columns, weights, criteria_type, lambda_val=0.5):
     res_wsm = rank_wsm(df, criteria_columns, weights, criteria_type)
     res_wpm = rank_wpm(df, criteria_columns, weights, criteria_type)
     
-    # Assuming the rows correspond in the same order, combine the scores
-    score = lambda_val * res_wsm['score'] + (1 - lambda_val) * res_wpm['score']
-    result = df[['model_name']].copy()
-    result['score'] = score
-    result = result.sort_values(by='score', ascending=False).reset_index(drop=True)
+    # Merge the results on 'model_name' to ensure proper alignment
+    merged = pd.merge(res_wsm[['model_name', 'score']], 
+                      res_wpm[['model_name', 'score']], 
+                      on='model_name', 
+                      suffixes=('_wsm', '_wpm'))
+    
+    # Combine scores from WSM and WPM using the balancing parameter lambda_val
+    merged['score'] = lambda_val * merged['score_wsm'] + (1 - lambda_val) * merged['score_wpm']
+    
+    # Sort alternatives by the final score in descending order
+    result = merged[['model_name', 'score']].sort_values(by='score', ascending=False).reset_index(drop=True)
     return result
