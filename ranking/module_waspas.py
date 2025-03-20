@@ -1,7 +1,7 @@
 # module_waspas.py
 import pandas as pd
-from module_wsm import rank_wsm
-from module_wpm import rank_wpm
+from ranking.module_wsm import rank_wsm
+from ranking.module_wpm import rank_wpm
 
 def rank_waspas(df, criteria_columns, weights, criteria_type, lambda_val=0.5):
     """

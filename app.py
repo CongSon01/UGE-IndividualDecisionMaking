@@ -9,14 +9,8 @@ import matplotlib.pyplot as plt
 from flask import Flask, render_template, request, redirect, url_for, flash, send_file
 
 # Import our MCDM modules
-from module_ahp import compute_ahp_weights_from_excel
-from module_entropy import compute_entropy_weights
-from module_wsm import rank_wsm
-from module_wpm import rank_wpm
-from module_waspas import rank_waspas
-from module_topsis import rank_topsis
-from module_promethee import rank_promethee
-from module_vikor import rank_vikor
+from weights import *
+from ranking import *
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Replace with your own secret key

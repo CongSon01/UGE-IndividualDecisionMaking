@@ -4,14 +4,8 @@ import time
 import pandas as pd
 
 # Import algorithm modules
-from module_ahp import compute_ahp_weights_from_excel
-from module_entropy import compute_entropy_weights
-from module_wsm import rank_wsm
-from module_wpm import rank_wpm
-from module_waspas import rank_waspas
-from module_topsis import rank_topsis
-from module_promethee import rank_promethee
-from module_vikor import rank_vikor
+from weights import *
+from ranking import *
 
 def main():
     parser = argparse.ArgumentParser(
@@ -42,10 +36,10 @@ def main():
     # Identify criteria columns (all columns except 'model_name')
     criteria_columns = [col for col in df.columns if col != "model_name"]
     
-    # Define criteria types: if column name contains 'price', treat as cost; otherwise, benefit.
+    # Define criteria types: if column name contains 'price' or 'date', treat as cost; otherwise, benefit.
     criteria_type = {}
     for col in criteria_columns:
-        if "price" in col.lower():
+        if "price" in col.lower() or "date" in col.lower():
             criteria_type[col] = "cost"
         else:
             criteria_type[col] = "benefit"
