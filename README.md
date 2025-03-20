@@ -29,7 +29,7 @@ This project implements several Multi-Criteria Decision Making (MCDM) methods on
 3. **Install Required Packages:**
 
 ```bash
-    pip install numpy pandas openpyxl
+    pip install -r requirements.txt
 ```
 
 4. **Prepare the Data Files:**
@@ -49,6 +49,21 @@ Using Entropy for Weights and WASPAS for Ranking:
     python main.py --weight_method entropy --rank_method waspas
 ```
 
+### Running the Flask Web Application
+1. **Start the Flask app:**
+```bash
+    python app.py
+```
+2. **Open your browser and go to:**
+```bash
+    http://127.0.0.1:8888
+```
+3. **Open your browser and go to:**
+```bash
+    http://127.0.0.1:8888
+```
+4. Upload cleaned_samsung_phones.csv and, if using AHP, provide pairwise_matrix.xlsx.
+5. Click "Execute" to run the ranking methods and view results.
 ## 1. Problem Overview
 
 In this project, we address a typical MCDM problem:
