@@ -1,4 +1,3 @@
-# module_promethee.py
 import numpy as np
 import pandas as pd
 from common_utils import normalize_min_max
@@ -33,7 +32,7 @@ def rank_promethee(df, criteria_columns, weights, criteria_type):
             pref = 0
             for col in criteria_columns:
                 diff = df_norm.iloc[i][col] - df_norm.iloc[k][col]
-                # Simple preference function: positive difference only
+                # Preference function: positive difference only
                 pref += weights[col] * (diff if diff > 0 else 0)
             phi_plus[i] += pref
             phi_minus[k] += pref

@@ -1,4 +1,3 @@
-# module_waspas.py
 import pandas as pd
 from ranking.module_wsm import rank_wsm
 from ranking.module_wpm import rank_wpm

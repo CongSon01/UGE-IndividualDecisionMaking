@@ -1,4 +1,3 @@
-# module_wsm.py
 import pandas as pd
 from common_utils import normalize_min_max
 
